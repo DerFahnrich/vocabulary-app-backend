@@ -2,3 +2,6 @@
 
 # CS8632: The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
 dotnet_diagnostic.CS8632.severity = none
+
+# IDE0022: Use expression body for methods
+csharp_style_expression_bodied_methods = when_on_single_line

@@ -13,6 +13,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using VocabularyAppBackend.Context;
+using VocabularyAppBackend.IRepositories;
+using VocabularyAppBackend.IServices;
+using VocabularyAppBackend.Repositories;
+using VocabularyAppBackend.Services;
 
 namespace VocabularyAppBackend
 {
@@ -31,6 +35,11 @@ namespace VocabularyAppBackend
 
       services.AddControllers();
       services.AddDbContext<VocabularyAppBackendContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DBConnection")));
+
+      services.AddScoped<IModeRepository, ModeRepository>();
+      services.AddScoped<IModeService, ModeService>();
+      services.AddScoped<IUserRepository, UserRepository>();
+      services.AddScoped<IUserService, UserService>();
 
       services.AddSwaggerGen(c => c.SwaggerDoc("v1", new OpenApiInfo { Title = "VocabularyAppBackend", Version = "v1" }));
     }
