@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using VocabularyAppBackend.Constants;
 using VocabularyAppBackend.Context;
 using VocabularyAppBackend.IRepositories;
 using VocabularyAppBackend.IServices;
@@ -32,14 +33,26 @@ namespace VocabularyAppBackend
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services)
     {
-
       services.AddControllers();
+
+      services.AddHttpContextAccessor();
+
       services.AddDbContext<VocabularyAppBackendContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DBConnection")));
 
       services.AddScoped<IModeRepository, ModeRepository>();
-      services.AddScoped<IModeService, ModeService>();
       services.AddScoped<IUserRepository, UserRepository>();
+
+      services.AddScoped<IModeService, ModeService>();
       services.AddScoped<IUserService, UserService>();
+      services.AddScoped<IAuthService, AuthService>();
+
+      services.AddAuthentication(AuthenticationCookie.Name).AddCookie(AuthenticationCookie.Name, options =>
+      {
+        options.Cookie.Name = AuthenticationCookie.Name;
+        options.ExpireTimeSpan = TimeSpan.FromMinutes(10); // This will make the cookie expire after a certain time.
+      });
+
+      services.AddAuthorization(options => { });
 
       services.AddSwaggerGen(c => c.SwaggerDoc("v1", new OpenApiInfo { Title = "VocabularyAppBackend", Version = "v1" }));
     }
@@ -58,6 +71,7 @@ namespace VocabularyAppBackend
 
       app.UseRouting();
 
+      app.UseAuthentication();
       app.UseAuthorization();
 
       app.UseEndpoints(endpoints =>

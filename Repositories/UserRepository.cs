@@ -34,21 +34,19 @@ namespace VocabularyAppBackend.Repositories
       }
     }
 
-    public async Task<UserDto> GetUserById(int userId)
+    public async Task<User> GetUserById(int userId)
     {
       return await _context.Users
         .Where(user => user.UserID == userId)
-        .Select(user => new UserDto(user))
         .SingleOrDefaultAsync();
     }
 
-    public async Task<UserDto> GetUserByUsername(string username)
+    public async Task<UserDto> GetUserByEmail(string email)
     {
       return await _context.Users
-        .Where(user => user.Username == username)
+        .Where(user => user.Email == email)
         .Select(user => new UserDto(user))
         .SingleOrDefaultAsync();
     }
-
   }
 }

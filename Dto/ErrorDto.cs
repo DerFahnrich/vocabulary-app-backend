@@ -7,22 +7,22 @@ namespace VocabularyAppBackend.Dto
 {
   public class ErrorDto
   {
-    public string Description { get; set; }
+    public string Error { get; set; }
     public string ErrorMessage { get; set; }
 
     public ErrorDto()
     {
     }
 
-    public ErrorDto(string description)
+    public ErrorDto(string error)
     {
-      Description = description;
+      Error = error;
     }
 
-    public ErrorDto(string description, string content)
+    public ErrorDto(string error, string errorMessage)
     {
-      Description = description;
-      ErrorMessage = content;
+      Error = error;
+      ErrorMessage = errorMessage;
     }
 
   }

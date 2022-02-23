@@ -23,11 +23,11 @@ namespace VocabularyAppBackend.Controllers
     public async Task<ActionResult<UserDto>> GetUserById(int userId)
     {
       var user = await _service.GetUserById(userId);
-      return user != null ? user : NotFound();
+      return user != null ? new UserDto(user) : NotFound(new ErrorDto("User could not be found"));
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateUser(CreateUserDto userToCreate)
+    public async Task<IActionResult> CreateUser(UserCreateDto userToCreate)
     {
       return await _service.CreateUser(userToCreate);
     }

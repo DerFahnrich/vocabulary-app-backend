@@ -10,8 +10,8 @@ namespace VocabularyAppBackend.IRepositories
 {
   public interface IUserRepository
   {
-    Task<UserDto> GetUserById(int userId);
-    Task<UserDto> GetUserByUsername(string username);
+    Task<User> GetUserById(int userId);
+    Task<UserDto> GetUserByEmail(string email);
     Task<IActionResult> CreateUser(User user);
   }
 }

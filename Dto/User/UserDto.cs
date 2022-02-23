@@ -10,11 +10,18 @@ namespace VocabularyAppBackend.Dto
   {
     public int UserID { get; set; }
     public string Username { get; set; }
+    public string Email { get; set; }
+
+    public UserDto()
+    {
+    }
 
     public UserDto(User user)
     {
       UserID = user.UserID;
       Username = user.Username;
+      Email = user.Email;
     }
+
   }
 }

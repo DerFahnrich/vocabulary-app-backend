@@ -21,21 +21,21 @@ namespace VocabularyAppBackend.Services
       _repository = repository;
     }
 
-    public async Task<IActionResult> CreateUser(CreateUserDto userToCreate)
+    public async Task<IActionResult> CreateUser(UserCreateDto userToCreate)
     {
       if (userToCreate == null)
       {
         return new BadRequestObjectResult(new ErrorDto("Something went wrong"));
       }
 
-      if (String.IsNullOrEmpty(userToCreate.Username) || String.IsNullOrEmpty(userToCreate.Password))
+      if (string.IsNullOrEmpty(userToCreate.Email) || string.IsNullOrEmpty(userToCreate.Username) || string.IsNullOrEmpty(userToCreate.Password))
       {
-        return new BadRequestObjectResult(new ErrorDto("You must provide both username and password"));
+        return new BadRequestObjectResult(new ErrorDto("You must provide email, username and password"));
       }
 
-      if (await CheckIfUserExistsByUsername(userToCreate.Username))
+      if (await CheckIfUserExistsByEmail(userToCreate.Email))
       {
-        return new BadRequestObjectResult(new ErrorDto("Username already exists"));
+        return new BadRequestObjectResult(new ErrorDto("Email already exists"));
       }
 
       var user = new User(userToCreate);
@@ -43,21 +43,21 @@ namespace VocabularyAppBackend.Services
       return await _repository.CreateUser(user);
     }
 
-    public async Task<UserDto> GetUserById(int userId)
+    public async Task<User> GetUserById(int userId)
     {
       return await _repository.GetUserById(userId);
     }
 
-    public async Task<UserDto> GetUserByUsername(string username)
+    public async Task<UserDto> GetUserByEmail(string email)
     {
-      return await _repository.GetUserByUsername(username);
+      return await _repository.GetUserByEmail(email);
     }
 
     /*########## Helper Methods Below ##########*/
 
-    private async Task<bool> CheckIfUserExistsByUsername(string username)
+    private async Task<bool> CheckIfUserExistsByEmail(string email)
     {
-      return await GetUserByUsername(username) != null;
+      return await GetUserByEmail(email) != null;
     }
   }
 }
